@@ -37,6 +37,22 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func homeTimelineWithParams(params: NSDictionary?, success: ([Tweet]) -> (), failure: (NSError) -> ()) {
+        GET("1.1/statuses/home_timeline.json",
+            parameters: params,
+            progress: nil,
+            success: {
+                (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                let dictionaries = response as! [NSDictionary]
+                let tweets = Tweet.tweetsWithArray(dictionaries)
+                success(tweets)
+            },
+            failure: {
+                (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                failure(error)
+        })
+    }
+    
     func handleOpenURL(url: NSURL) {
         let requestToken = BDBOAuth1Credential(queryString: url.query)
         fetchAccessTokenWithPath("oauth/access_token",
@@ -83,7 +99,7 @@ class TwitterClient: BDBOAuth1SessionManager {
                 print("error: \(error.localizedDescription)")
         }
     }
-    
+        
     func logout() {
         User.currentUser = nil
         TwitterClient.sharedInstance.requestSerializer.removeAccessToken()

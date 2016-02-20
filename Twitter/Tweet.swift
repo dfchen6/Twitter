@@ -9,6 +9,7 @@
 import UIKit
 
 class Tweet: NSObject {
+    var id: String
     var user: User
     var userName: NSString?
     var text: NSString?
@@ -19,6 +20,7 @@ class Tweet: NSObject {
     var liked: Bool?
     
     init(tweetDict: NSDictionary) {
+        id = tweetDict["id_str"] as! String
         text = tweetDict["text"] as? String
         retweetCount = (tweetDict["retweet_count"] as? Int) ?? 0
         favoriteCount = (tweetDict["favorite_count"] as? Int) ?? 0
@@ -55,4 +57,69 @@ class Tweet: NSObject {
         }
         return tweets
     }
+    
+    func favorite(completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        TwitterClient.sharedInstance.POST(
+            "1.1/favorites/create.json?id=\(id)",
+            parameters: nil,
+            progress: nil,
+            success: { (_: NSURLSessionDataTask, _: AnyObject?) -> Void in
+                self.liked = true
+                self.favoriteCount++
+                completion(tweet: self, error: nil)
+            },
+            failure: { (_: NSURLSessionDataTask?, error: NSError) -> Void in
+                completion(tweet: nil, error: error)
+            }
+        )
+    }
+    
+    func unfavorite(completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        TwitterClient.sharedInstance.POST(
+            "1.1/favorites/destroy.json?id=\(id)",
+            parameters: nil,
+            success: { (_: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                self.liked = false
+                self.favoriteCount--
+                completion(tweet: self, error: nil)
+            },
+            failure: { (_: NSURLSessionDataTask?, error: NSError) -> Void in
+                completion(tweet: nil, error: error)
+            }
+        )
+    }
+    
+    func retweet(completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        TwitterClient.sharedInstance.POST(
+            "1.1/statuses/retweet/\(id).json",
+            parameters: nil,
+            progress: nil,
+            success: { (_: NSURLSessionDataTask, _: AnyObject?) -> Void in
+                self.retweeted = true
+                self.retweetCount++
+                completion(tweet: self, error: nil)
+            },
+            failure: { (_: NSURLSessionDataTask?, error: NSError) -> Void in
+                completion(tweet: nil, error: error)
+            }
+        )
+    }
+    
+    func unretweet(completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        TwitterClient.sharedInstance.POST(
+            "1.1/statuses/unretweet/\(id).json",
+            parameters: nil,
+            progress: nil,
+            success: { (_: NSURLSessionDataTask, _: AnyObject?) -> Void in
+                self.retweeted = false
+                self.retweetCount--
+                completion(tweet: self, error: nil)
+            },
+            failure: { (_: NSURLSessionDataTask?, error: NSError) -> Void in
+                completion(tweet: nil, error: error)
+            }
+        )
+    }
+
+
 }

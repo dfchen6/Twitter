@@ -19,6 +19,7 @@
 		C6A246C61C76C8AD00B86BA8 /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A246C51C76C8AD00B86BA8 /* TwitterClient.swift */; };
 		C6A246C81C76DC0300B86BA8 /* TweetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A246C71C76DC0300B86BA8 /* TweetsViewController.swift */; };
 		C6A246CA1C76E76E00B86BA8 /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A246C91C76E76E00B86BA8 /* TweetCell.swift */; };
+		C6A246CE1C78E87500B86BA8 /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A246CD1C78E87500B86BA8 /* InfiniteScrollActivityView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		C6A246C51C76C8AD00B86BA8 /* TwitterClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
 		C6A246C71C76DC0300B86BA8 /* TweetsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetsViewController.swift; sourceTree = "<group>"; };
 		C6A246C91C76E76E00B86BA8 /* TweetCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
+		C6A246CD1C78E87500B86BA8 /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollActivityView.swift; sourceTree = "<group>"; };
 		E471A1D691E022D5FAAD3B45 /* Pods_Twitter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Twitter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -109,6 +111,7 @@
 				C661D5291C76564D00E32FDC /* ViewController.swift */,
 				C6A246C71C76DC0300B86BA8 /* TweetsViewController.swift */,
 				C6A246C91C76E76E00B86BA8 /* TweetCell.swift */,
+				C6A246CD1C78E87500B86BA8 /* InfiniteScrollActivityView.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6A246CE1C78E87500B86BA8 /* InfiniteScrollActivityView.swift in Sources */,
 				C6A246C21C769D0400B86BA8 /* User.swift in Sources */,
 				C6A246C41C769D1900B86BA8 /* Tweet.swift in Sources */,
 				C6A246BD1C76586500B86BA8 /* LoginViewController.swift in Sources */,

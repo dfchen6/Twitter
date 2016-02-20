@@ -59,33 +59,33 @@ class TweetCell: UITableViewCell {
     }
     @IBAction func favoriteButton(sender: AnyObject) {
         if (tweet.liked!) {
-            tweet.liked = false
-            favoriteButton.setImage(UIImage(named: "favorite"), forState: .Normal)
-            favoritesLabel.textColor = UIColor.grayColor()
-            tweet.favoriteCount = tweet.favoriteCount - 1
-            favoritesLabel.text = String(tweet.favoriteCount)
+            tweet.unfavorite({ (tweet, error) -> () in
+                if let tweet = tweet {
+                    self.tweet = tweet
+                }
+            })
         } else {
-            tweet.liked = true
-            favoriteButton.setImage(UIImage(named: "favorite_on"), forState: .Normal)
-            favoritesLabel.textColor = UIColor.redColor()
-            tweet.favoriteCount = tweet.favoriteCount + 1
-            favoritesLabel.text = String(tweet.favoriteCount)
+            tweet.favorite({ (tweet, error) -> () in
+                if let tweet = tweet {
+                    self.tweet = tweet
+                }
+            })
         }
     }
     
     @IBAction func retweetButton(sender: AnyObject) {
         if (tweet.retweeted!) {
-            tweet.retweeted = false
-            retweetButton.setImage(UIImage(named: "retweet"), forState: .Normal)
-            retweeLabel.textColor = UIColor.grayColor()
-            tweet.retweetCount = tweet.retweetCount - 1
-            retweeLabel.text = String(tweet.retweetCount)
+            tweet.unretweet({ (tweet, error) -> () in
+                if let tweet = tweet {
+                    self.tweet = tweet
+                }
+            })
         } else {
-            tweet.retweeted = true
-            retweetButton.setImage(UIImage(named: "retweet_on"), forState: .Normal)
-            retweeLabel.textColor = UIColor.greenColor()
-            tweet.retweetCount = tweet.retweetCount + 1
-            retweeLabel.text = String(tweet.retweetCount)
+            tweet.retweet({ (tweet, error) -> () in
+                if let tweet = tweet {
+                    self.tweet = tweet
+                }
+            })
         }
     }
     
