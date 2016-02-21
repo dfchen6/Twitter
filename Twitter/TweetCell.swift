@@ -39,7 +39,7 @@ class TweetCell: UITableViewCell {
                 favoriteButton.setImage(UIImage(named: "favorite"), forState: .Normal)
             }
             if (tweet.retweeted != nil && tweet.retweeted!) {
-                retweeLabel.textColor = UIColor.greenColor()
+                retweeLabel.textColor = UIColor(red:0.1, green:0.72, blue:0.6, alpha:1.0)
                 retweetButton.setImage(UIImage(named: "retweet_on"), forState: .Normal)
             } else {
                 retweeLabel.textColor = UIColor.grayColor()

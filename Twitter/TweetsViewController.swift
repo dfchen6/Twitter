@@ -13,11 +13,16 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     var tweets: [Tweet]?
     var isMoreDataLoading = false
     var loadingMoreView: InfiniteScrollActivityView?
+    var tweetAmount = 20
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let nav = self.navigationController?.navigationBar
+        nav!.barTintColor = UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0)
+        
         // Set up Infinite Scroll loading indicator
         let frame = CGRectMake(0, tableView.contentSize.height, tableView.bounds.size.width,InfiniteScrollActivityView.defaultHeight)
         loadingMoreView = InfiniteScrollActivityView(frame: frame)
@@ -42,6 +47,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             self.tweets = tweets
             self.tableView.reloadData()
             }) { (error: NSError) -> () in
+                self.errorAlert(error.localizedDescription)
                 print(error.localizedDescription)
         }
         // Do any additional setup after loading the view, typically from a nib.
@@ -61,7 +67,16 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @IBAction func logoutAction(sender: AnyObject) {
-        TwitterClient.sharedInstance.logout()
+        let alert = UIAlertController(title: "Warning", message: "Are you sure you want to sign out of Twitter?", preferredStyle: UIAlertControllerStyle.Alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {(action:UIAlertAction!) in
+            print("cancel")
+        }
+        let signoutAction = UIAlertAction(title: "Sign out", style: UIAlertActionStyle.Default) {(action:UIAlertAction!) in
+            TwitterClient.sharedInstance.logout()
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(signoutAction)
+        self.presentViewController(alert, animated: true, completion: nil)
         print("logout")
     }
     
@@ -72,30 +87,34 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func refreshControlAction(refreshControl: UIRefreshControl) {
-        TwitterClient.sharedInstance.homeTimelineWithParams(nil,
+        TwitterClient.sharedInstance.homeTimelineWithParams(["count": tweetAmount],
             success: { (tweets: [Tweet]?) -> () in
                 if let tweets = tweets {
-                    self.tweets! += tweets
+                    self.tweets = tweets
                     self.tableView.reloadData()
                     refreshControl.endRefreshing()
                 }
             }) { (error: NSError) -> () in
+                self.errorAlert(error.localizedDescription)
                 print(error.localizedDescription)
         }
     }
     
     func loadMoreData() {
-        TwitterClient.sharedInstance.homeTimelineWithParams(tweets == nil ? nil : ["max_id": tweets![tweets!.count - 1].id],
+        print("Fetch more tweets")
+        tweetAmount += 20
+        TwitterClient.sharedInstance.homeTimelineWithParams(["count": tweetAmount],
             success: { (tweets: [Tweet]?) -> () in
                 if let tweets = tweets {
-                    self.tweets! += tweets
+                    self.tweets = tweets
+                    self.isMoreDataLoading = false
                     self.tableView.reloadData()
                 }
             }) { (error: NSError) -> () in
+                self.errorAlert(error.localizedDescription)
                 print(error.localizedDescription)
         }
-        self.isMoreDataLoading = false
-        self.loadingMoreView!.stopAnimating()
+        loadingMoreView!.stopAnimating()
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -112,6 +131,14 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
-    
+    func errorAlert(message: String) {
+        let title = "Error"
+        let okText = "OK"
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let okayButton = UIAlertAction(title: okText, style: UIAlertActionStyle.Cancel, handler: nil)
+        alert.addAction(okayButton)
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
 }
 

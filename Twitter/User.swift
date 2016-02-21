@@ -14,7 +14,6 @@ class User: NSObject {
     var screenName: NSString?
     var profileURL: NSURL?
     var tagLine: NSString?
-    
     var userDict: NSDictionary?
     let userDidLoginNotification = "userDidLoginNotification"
     let userDidLogoutNotification = "userDidLogoutNotification"

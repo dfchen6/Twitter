@@ -53,7 +53,7 @@
             </objects>
             <point key="canvasLocation" x="303" y="362"/>
         </scene>
-        <!--Tweets View Controller-->
+        <!--Home-->
         <scene sceneID="njE-kc-9TQ">
             <objects>
                 <viewController id="LIb-jJ-h99" customClass="TweetsViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
@@ -204,11 +204,15 @@
                             <constraint firstItem="pc5-jP-kzA" firstAttribute="top" secondItem="ovS-Yg-a42" secondAttribute="topMargin" id="krD-2n-UfO"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Pdz-ek-Lbl">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="GU0-tB-DCS">
+                    <navigationItem key="navigationItem" title="Home" id="Pdz-ek-Lbl">
+                        <barButtonItem key="leftBarButtonItem" image="log_out" id="GU0-tB-DCS">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="logoutAction:" destination="LIb-jJ-h99" id="mAg-1I-6Zz"/>
                             </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="new_tweet" id="BNc-XH-bxB">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
@@ -243,6 +247,8 @@
     <resources>
         <image name="back" width="640" height="960"/>
         <image name="favorite" width="18" height="24"/>
+        <image name="log_out" width="30" height="30"/>
+        <image name="new_tweet" width="32" height="32"/>
         <image name="reply" width="21" height="24"/>
         <image name="retweet" width="25" height="24"/>
     </resources>
