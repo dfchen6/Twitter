@@ -13,11 +13,16 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var tweetTextView: UITextView!
     
+    var isReply = true
+    var replayID: String = ""
+    var responseText: String = ""
+    
     @IBOutlet weak var counterTextField: UILabel!
     var remainCharacter = 140
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        isReply = true
         tweetTextView.delegate = self
         tweetTextView.placeholder = "What's happening?"
     }
@@ -38,7 +43,6 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
         let tweetLen = textView.text.characters.count
         remainCharacter = 140 - tweetLen
         print(remainCharacter)
-        
         counterTextField.text = String(remainCharacter)
     }
     

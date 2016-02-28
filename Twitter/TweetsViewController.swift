@@ -59,7 +59,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.tweets == nil {
             return 0
         } else {
@@ -84,7 +84,31 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell", forIndexPath: indexPath) as! TweetCell
         cell.tweet = tweets?[indexPath.row]
+        // Add tap gesture recognizer
+        let tapProfile = UITapGestureRecognizer(target: self, action: "profileSegue:")
+        tapProfile.numberOfTapsRequired = 1
+        cell.profileImageView.tag = indexPath.row
+        cell.profileImageView.userInteractionEnabled = true
+        cell.profileImageView.addGestureRecognizer(tapProfile)
+        
+        cell.replyButton.tag = indexPath.row
+        cell.replyButton.addTarget(self, action: "replyButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        
         return cell
+    }
+    
+    func replyButtonPressed(sender: UIButton!) {
+        performSegueWithIdentifier("ComposeSegue", sender: sender)
+        print("reply")
+    }
+    
+    
+    func profileSegue(sender: UITapGestureRecognizer!) {
+        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: sender.view!.tag, inSection: 0)) as! TweetCell
+        let user = cell.tweet?.user
+        let profileViewController = self.storyboard?.instantiateViewControllerWithIdentifier("profileView") as! ProfileViewController
+        profileViewController.user = user
+        self.navigationController!.pushViewController(profileViewController, animated:true)
     }
     
     func refreshControlAction(refreshControl: UIRefreshControl) {
@@ -150,6 +174,16 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             if let destination = segue.destinationViewController as? tweetDetailViewController {
                 destination.tweet = tweet
             }
+        }
+        if segue.identifier == "ComposeSegue" {
+            print("prepare for segue")
+//            let replyButton = sender as! UIButton
+//            let nc = segue.destinationViewController as! UINavigationController
+//            let vc = nc.topViewController as! NewTweetViewController
+//            let tweet = tweets![replyButton.tag]
+//            vc.isReply = true
+//            vc.replayID = tweet.id
+//            vc.responseText = "@" + ((tweet.user.screenName)! as String) + " "
         }
     }
     

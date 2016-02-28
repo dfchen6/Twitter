@@ -25,8 +25,8 @@ class TweetCell: UITableViewCell {
     
     var tweet: Tweet! {
         didSet {
-            nameLabel.text = tweet.userName as! String
-            tweetLabel.text = tweet.text as! String
+            nameLabel.text = tweet.userName as? String
+            tweetLabel.text = tweet.text as? String
             profileImageView.setImageWithURL(tweet.user.profileURL!)
             screenNameLabel.text = "@" + (tweet.user.screenName as! String)
             retweeLabel.text = String(tweet.retweetCount)
@@ -50,17 +50,7 @@ class TweetCell: UITableViewCell {
             selectionStyle = .None
             profileImageView.layer.cornerRadius = 6
             profileImageView.clipsToBounds = true
-            
-            // Add tap gesture to profile image
-            let tapImage = UITapGestureRecognizer(target: self, action: "profileTapped")
-            tapImage.numberOfTapsRequired = 1
-            profileImageView.addGestureRecognizer(tapImage)
-            profileImageView.userInteractionEnabled = true
         }
-    }
-    
-    func profileTapped() {
-        print("Print my profile image")
     }
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -68,6 +58,7 @@ class TweetCell: UITableViewCell {
 
     }
     @IBAction func favoriteButton(sender: AnyObject) {
+        print("favorite it!")
         if (tweet.liked!) {
             tweet.unfavorite({ (tweet, error) -> () in
                 if let tweet = tweet {

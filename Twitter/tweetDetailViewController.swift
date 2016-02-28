@@ -15,17 +15,16 @@ class tweetDetailViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var screenNameLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
-    @IBOutlet weak var likeNumLabel: UILabel!
-    
+    @IBOutlet weak var likeNumberLabel: UILabel!
+    @IBOutlet weak var reTweetNumberLabel: UILabel!
     var tweet: Tweet!
     
-    @IBOutlet weak var retweetNumerLabel: UILabel!
     override func viewDidLoad() {
         nameLabel.text = tweet.user.name as! String
         screenNameLabel.text = tweet.user.screenName as! String
         tweetLabel.text = tweet.text as! String
-        likeNumLabel.text = String(tweet.favoriteCount)
-        retweetNumerLabel.text = String(tweet.retweetCount)
+        likeNumberLabel.text = String(tweet.favoriteCount)
+        reTweetNumberLabel.text = String(tweet.retweetCount)
         profileImageView.setImageWithURL(tweet.user.profileURL!)
         
         super.viewDidLoad()

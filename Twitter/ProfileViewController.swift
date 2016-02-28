@@ -24,10 +24,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if user == nil {
+            user = User.currentUser
+        }
+
         tableView.delegate = self
         tableView.dataSource = self
-        user = User._currentUser
         nameLabel.text = user.name as? String
         profileImageView.setImageWithURL(user.profileURL!)
         screenNameLabel.text = user.screenName as? String
@@ -35,7 +37,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         numOfFollowingLabel.text = String(user.followingCount)
         backGroundImageView.setImageWithURL(user.backgroundURL!)
         
-        print(user.screenName)
         TwitterClient.sharedInstance.userTimeline(["screen_name": user.screenName!], success: { (tweets: [Tweet]?) -> () in
             if let tweets = tweets {
                 self.tweets = tweets
@@ -45,11 +46,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             }) { (error: NSError) -> () in
                 print(error.localizedDescription)
         }
-        
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
-    func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.tweets == nil {
             return 0
         } else {
@@ -62,11 +61,4 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         cell.tweet = tweets?[indexPath.row]
         return cell
     }
-
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
 }
