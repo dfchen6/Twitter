@@ -59,6 +59,22 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ProfileTweetCell", forIndexPath: indexPath) as! TweetCell
         cell.tweet = tweets?[indexPath.row]
+        
+        let tapProfile = UITapGestureRecognizer(target: self, action: "profileSegue:")
+        tapProfile.numberOfTapsRequired = 1
+        cell.profileImageView.tag = indexPath.row
+        cell.profileImageView.userInteractionEnabled = true
+        cell.profileImageView.addGestureRecognizer(tapProfile)
+        
         return cell
+    }
+    
+    func profileSegue(sender: UITapGestureRecognizer!) {
+        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: sender.view!.tag, inSection: 0)) as! TweetCell
+        let user = cell.tweet?.user
+        let profileViewController = self.storyboard?.instantiateViewControllerWithIdentifier("profileView") as! ProfileViewController
+        
+        profileViewController.user = user
+        self.navigationController!.pushViewController(profileViewController, animated:true)
     }
 }
