@@ -37,6 +37,22 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func userTimeline(params: NSDictionary?, success: ([Tweet]) -> (), failure: (NSError) -> ()) {
+        GET("1.1/statuses/user_timeline.json",
+            parameters: params,
+            progress: nil,
+            success: {
+                (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                let dictionaries = response as! [NSDictionary]
+                let tweets = Tweet.tweetsWithArray(dictionaries)
+                success(tweets)
+            },
+            failure: {
+                (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                failure(error)
+        })
+    }
+    
     func homeTimelineWithParams(params: NSDictionary?, success: ([Tweet]) -> (), failure: (NSError) -> ()) {
         GET("1.1/statuses/home_timeline.json",
             parameters: params,
@@ -99,7 +115,22 @@ class TwitterClient: BDBOAuth1SessionManager {
                 print("error: \(error.localizedDescription)")
         }
     }
-        
+    
+    func tweet(status: String, params: NSDictionary?, completion: (id: String) -> ()) {
+        let customCharacterSet = NSCharacterSet(charactersInString: "\"#%<>[\\]^`{|}, ?").invertedSet
+        if let escapedStatus = status.stringByAddingPercentEncodingWithAllowedCharacters(customCharacterSet) {
+            let query = "status=\(escapedStatus)"
+            print("status: \(status), escapedStatus: \(escapedStatus)")
+            TwitterClient.sharedInstance.POST("https://api.twitter.com/1.1/statuses/update.json?\(query)", parameters: params, success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                print("success")
+                completion(id: (response as! NSDictionary)["id_str"] as! String)
+                }) { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
+                    print("failed to tweet with error code \(error.description)")
+            }
+        }
+    }
+    
+    
     func logout() {
         User.currentUser = nil
         TwitterClient.sharedInstance.requestSerializer.removeAccessToken()

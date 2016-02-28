@@ -13,6 +13,7 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var profileImageView: UIImageView!
     
     @IBOutlet weak var nameLabel: UILabel!
+    
     @IBOutlet weak var screenNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
@@ -49,9 +50,18 @@ class TweetCell: UITableViewCell {
             selectionStyle = .None
             profileImageView.layer.cornerRadius = 6
             profileImageView.clipsToBounds = true
+            
+            // Add tap gesture to profile image
+            let tapImage = UITapGestureRecognizer(target: self, action: "profileTapped")
+            tapImage.numberOfTapsRequired = 1
+            profileImageView.addGestureRecognizer(tapImage)
+            profileImageView.userInteractionEnabled = true
         }
     }
     
+    func profileTapped() {
+        print("Print my profile image")
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

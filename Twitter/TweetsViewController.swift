@@ -41,7 +41,8 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 180
+        tableView.estimatedRowHeight = 20
+        
         
         TwitterClient.sharedInstance.homeTimeline({ (tweets: [Tweet]) -> () in
             self.tweets = tweets
@@ -140,5 +141,17 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         alert.addAction(okayButton)
         self.presentViewController(alert, animated: true, completion: nil)
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "tweetDetailSegue" {
+            let cell = sender as! UITableViewCell
+            let indexPath = tableView.indexPathForCell(cell)
+            let tweet = tweets![indexPath!.row]
+            if let destination = segue.destinationViewController as? tweetDetailViewController {
+                destination.tweet = tweet
+            }
+        }
+    }
+    
 }
 

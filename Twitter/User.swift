@@ -15,17 +15,27 @@ class User: NSObject {
     var profileURL: NSURL?
     var tagLine: NSString?
     var userDict: NSDictionary?
+    var followerCount: Int!
+    var followingCount: Int!
     let userDidLoginNotification = "userDidLoginNotification"
     let userDidLogoutNotification = "userDidLogoutNotification"
+    var backgroundURL: NSURL?
     
     init(userDict: NSDictionary) {
+        print(userDict)
         name = userDict["name"] as? String
         screenName = userDict["screen_name"] as? String
         let profileImageURL = userDict["profile_image_url"] as? String
+        let bgURL = userDict["profile_banner_url"] as? String
+        if let bgURL = bgURL {
+            backgroundURL = NSURL(string: bgURL)
+        }
         if let profileImageURL = profileImageURL {
             profileURL = NSURL(string: profileImageURL)
         }
         tagLine = userDict["description"] as? String
+        followerCount = userDict["followers_count"] as! Int
+        followingCount = userDict["friends_count"] as! Int
     }
         
     static var _currentUser: User?

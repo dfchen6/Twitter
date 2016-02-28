@@ -6,5 +6,7 @@ use_frameworks!
 target 'Twitter' do
 	pod "AFNetworking"
 	pod "BDBOAuth1Manager"
+	pod 'QQPlaceholderTextView', '~> 0.0.2' 
+	pod 'RAMAnimatedTabBarController', '~> 1.1'
 end
 

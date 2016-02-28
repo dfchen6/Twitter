@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '20C4F87E7368D3E1F5D4D11D'
-               BlueprintName = 'AFNetworking'
+               BlueprintIdentifier = 'D866D9F6F80C84D781803383'
+               BlueprintName = 'QQPlaceholderTextView'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'AFNetworking.framework'>
+               BuildableName = 'QQPlaceholderTextView.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
